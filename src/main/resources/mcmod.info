@@ -1,0 +1,18 @@
+[
+  {
+    "modid": "piko",
+    "name": "Piko Client",
+    "description": "A lightweight, legitimate Minecraft 1.8.9 PvP client: high FPS, customisable HUD and fair play quality of life modules.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": [
+      "Piko"
+    ],
+    "credits": "Built for Minecraft 1.8.9 with Forge.",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]
