@@ -1,6 +1,12 @@
 package piko;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.IRenderFactory;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -13,6 +19,8 @@ import piko.event.ForgeEventBridge;
 import piko.module.ModuleManager;
 import piko.module.ModuleRegistry;
 import piko.profile.ProfileManager;
+import piko.render.HandRenderer;
+import piko.render.PikoItemEntityRenderer;
 
 /**
  * Entry point of Piko Client, a legitimate Minecraft 1.8.9 PvP client.
@@ -42,6 +50,7 @@ public class PikoClient {
     private ProfileManager profileManager;
     private KeybindManager keybindManager;
     private ForgeEventBridge eventBridge;
+    private HandRenderer handRenderer;
 
     public static PikoClient getInstance() {
         return instance;
@@ -71,6 +80,18 @@ public class PikoClient {
         eventBridge = new ForgeEventBridge(this);
         MinecraftForge.EVENT_BUS.register(eventBridge);
         FMLCommonHandler.instance().bus().register(eventBridge);
+
+        handRenderer = new HandRenderer();
+        MinecraftForge.EVENT_BUS.register(handRenderer);
+
+        // The dropped item renderer must be registered before the render manager is built;
+        // it falls through to vanilla behaviour whenever the related modules are off.
+        RenderingRegistry.registerEntityRenderingHandler(EntityItem.class, new IRenderFactory<EntityItem>() {
+            @Override
+            public Render<? super EntityItem> createRenderFor(RenderManager manager) {
+                return new PikoItemEntityRenderer(manager, Minecraft.getMinecraft().getRenderItem());
+            }
+        });
 
         Runtime.getRuntime().addShutdownHook(new Thread("Piko config save") {
             @Override

@@ -142,6 +142,7 @@ public class ModuleManager {
             } else {
                 client.getEventBus().unregister(module);
             }
+            module.updateForgeSubscription(module.isEnabled());
         }
     }
 

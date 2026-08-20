@@ -28,6 +28,7 @@ public abstract class Module {
     private KeybindSetting keybind;
     private boolean enabled;
     private boolean keybindOpensAction;
+    private boolean forgeEvents;
 
     protected Module(String name, String description, ModuleCategory category) {
         this(name, description, category, false);
@@ -120,6 +121,7 @@ public abstract class Module {
                 client.getEventBus().unregister(this);
             }
         }
+        updateForgeSubscription(value);
         SettingManager.markDirty();
         if (value) {
             onEnable();
@@ -134,6 +136,27 @@ public abstract class Module {
      */
     public void setEnabledQuietly(boolean value) {
         enabled = value;
+    }
+
+    /**
+     * Declares that this module handles raw Forge events itself.
+     *
+     * <p>The subscription follows the enabled state, so a disabled module is not even on
+     * the Forge bus.</p>
+     */
+    protected void useForgeEvents() {
+        this.forgeEvents = true;
+    }
+
+    public void updateForgeSubscription(boolean subscribe) {
+        if (!forgeEvents) {
+            return;
+        }
+        if (subscribe) {
+            net.minecraftforge.common.MinecraftForge.EVENT_BUS.register(this);
+        } else {
+            net.minecraftforge.common.MinecraftForge.EVENT_BUS.unregister(this);
+        }
     }
 
     protected void onEnable() {
