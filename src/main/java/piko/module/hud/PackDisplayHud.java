@@ -11,6 +11,8 @@ import java.util.List;
 public class PackDisplayHud extends HudModule {
 
     private static final long REFRESH_INTERVAL = 2000L;
+    private static final net.minecraft.util.ResourceLocation UNKNOWN_PACK_ICON =
+            new net.minecraft.util.ResourceLocation("textures/misc/unknown_pack.png");
 
     private final BooleanSetting showIcon;
     private final BooleanSetting showName;
@@ -21,7 +23,7 @@ public class PackDisplayHud extends HudModule {
     private long lastRefresh;
 
     public PackDisplayHud() {
-        super("Pack Display", "Selected resource pack", 0.86F, 0.85F);
+        super("Pack Display", "Selected resource pack", 0.76F, 0.90F);
         showIcon = settings.add(new BooleanSetting("Show Icon", true));
         showName = settings.add(new BooleanSetting("Show Pack Name", true));
         showPrefix = settings.add(new BooleanSetting("Prefix", true));
@@ -81,7 +83,7 @@ public class PackDisplayHud extends HudModule {
             if (cachedEntry != null) {
                 cachedEntry.bindTexturePackIcon(mc.getTextureManager());
             } else {
-                mc.getTextureManager().bindTexture(new net.minecraft.util.ResourceLocation("pack.png"));
+                mc.getTextureManager().bindTexture(UNKNOWN_PACK_ICON);
             }
             piko.render.RenderUtil.drawTexture(0, (getHeight() - 12.0F) / 2.0F, 12.0F, 12.0F);
             piko.render.RenderUtil.resetState();

@@ -50,11 +50,12 @@ public class ScrollPanel extends Component {
         smoothScroll = 0;
     }
 
-    public void scroll(int wheelDelta) {
-        if (wheelDelta == 0 || contentHeight <= height) {
+    /** One wheel notch moves roughly one and a half rows. */
+    public void scroll(int notches) {
+        if (notches == 0 || contentHeight <= height) {
             return;
         }
-        scroll -= wheelDelta * 0.25F;
+        scroll -= notches * 18.0F;
         clampScroll();
     }
 

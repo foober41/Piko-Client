@@ -20,7 +20,7 @@ public class MemoryHud extends HudModule {
     private long lastUpdate;
 
     public MemoryHud() {
-        super("Memory Usage", "Java heap usage", 0.86F, 0.06F);
+        super("Memory Usage", "Java heap usage", 0.78F, 0.06F);
         showBar = settings.add(new BooleanSetting("Usage Bar", true));
         showMegabytes = settings.add(new BooleanSetting("Show Megabytes", true));
         enableBackground(false);

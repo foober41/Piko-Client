@@ -47,6 +47,12 @@ public final class Theme {
         return ColorUtil.alpha(accent(), alpha);
     }
 
+    /** Opacity of the large Piko panels, configurable in the Piko Theme module. */
+    public static float panelOpacity() {
+        PikoThemeModule theme = themeModule();
+        return theme == null ? 0.94F : theme.getPanelOpacity();
+    }
+
     public static float cornerRadius() {
         PikoThemeModule theme = themeModule();
         return theme == null ? 4.0F : theme.getCornerRadius();

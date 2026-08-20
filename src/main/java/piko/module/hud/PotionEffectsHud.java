@@ -24,7 +24,7 @@ public class PotionEffectsHud extends HudModule {
     private final BooleanSetting showLevel;
 
     public PotionEffectsHud() {
-        super("Potion Effects", "Active effects with duration", 0.86F, 0.10F);
+        super("Potion Effects", "Active effects with duration", 0.74F, 0.10F);
         showIcons = settings.add(new BooleanSetting("Icons", true));
         showDuration = settings.add(new BooleanSetting("Duration", true));
         showLevel = settings.add(new BooleanSetting("Effect Level", true));

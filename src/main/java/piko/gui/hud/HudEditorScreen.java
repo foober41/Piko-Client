@@ -9,6 +9,7 @@ import piko.font.FontManager;
 import piko.gui.Theme;
 import piko.gui.components.PikoButton;
 import piko.module.HudModule;
+import piko.module.gui.HudEditorModule;
 import piko.render.ColorUtil;
 import piko.render.RenderUtil;
 import piko.setting.SettingManager;
@@ -26,7 +27,6 @@ import java.util.List;
  */
 public class HudEditorScreen extends GuiScreen {
 
-    private static final float SNAP_DISTANCE = 4.0F;
     private static final float HANDLE_SIZE = 5.0F;
 
     private final GuiScreen parent;
@@ -40,6 +40,7 @@ public class HudEditorScreen extends GuiScreen {
     private float resizeStartDistance;
 
     private boolean snapping = true;
+    private boolean snappingInitialised;
     private boolean showCenterGuideX;
     private boolean showCenterGuideY;
     private float guideX = -1;
@@ -49,9 +50,29 @@ public class HudEditorScreen extends GuiScreen {
         this.parent = parent;
     }
 
+    private HudEditorModule options() {
+        return PikoClient.getInstance().getModuleManager().getModule(HudEditorModule.class);
+    }
+
+    private float snapDistance() {
+        HudEditorModule options = options();
+        return options == null ? 4.0F : options.getSnapDistance();
+    }
+
+    private boolean guidesEnabled() {
+        HudEditorModule options = options();
+        return options == null || options.areGuidesEnabled();
+    }
+
     @Override
     public void initGui() {
         buttons.clear();
+
+        if (!snappingInitialised) {
+            HudEditorModule options = options();
+            snapping = options == null || options.isSnapEnabled();
+            snappingInitialised = true;
+        }
 
         float buttonY = height - 24.0F;
         PikoButton snap = new PikoButton(snapLabel(), null) {
@@ -149,6 +170,9 @@ public class HudEditorScreen extends GuiScreen {
     }
 
     private void drawGuides(ScaledResolution resolution) {
+        if (!guidesEnabled()) {
+            return;
+        }
         int guideColor = ColorUtil.alpha(Theme.CYAN, 0.85F);
         if (showCenterGuideX) {
             RenderUtil.drawDashedLine(resolution.getScaledWidth() / 2.0F, 0,
@@ -214,27 +238,27 @@ public class HudEditorScreen extends GuiScreen {
 
         if (snapping) {
             // Screen edges.
-            if (Math.abs(targetX) < SNAP_DISTANCE) {
+            if (Math.abs(targetX) < snapDistance()) {
                 targetX = 0;
             }
-            if (Math.abs(targetY) < SNAP_DISTANCE) {
+            if (Math.abs(targetY) < snapDistance()) {
                 targetY = 0;
             }
-            if (Math.abs(targetX + elementWidth - screenWidth) < SNAP_DISTANCE) {
+            if (Math.abs(targetX + elementWidth - screenWidth) < snapDistance()) {
                 targetX = screenWidth - elementWidth;
             }
-            if (Math.abs(targetY + elementHeight - screenHeight) < SNAP_DISTANCE) {
+            if (Math.abs(targetY + elementHeight - screenHeight) < snapDistance()) {
                 targetY = screenHeight - elementHeight;
             }
 
             // Screen centre.
             float centeredX = (screenWidth - elementWidth) / 2.0F;
-            if (Math.abs(targetX - centeredX) < SNAP_DISTANCE) {
+            if (Math.abs(targetX - centeredX) < snapDistance()) {
                 targetX = centeredX;
                 showCenterGuideX = true;
             }
             float centeredY = (screenHeight - elementHeight) / 2.0F;
-            if (Math.abs(targetY - centeredY) < SNAP_DISTANCE) {
+            if (Math.abs(targetY - centeredY) < snapDistance()) {
                 targetY = centeredY;
                 showCenterGuideY = true;
             }
@@ -248,11 +272,11 @@ public class HudEditorScreen extends GuiScreen {
                 }
                 float otherX = other.getPixelX(resolution);
                 float otherY = other.getPixelY(resolution);
-                if (Math.abs(targetX - otherX) < SNAP_DISTANCE) {
+                if (Math.abs(targetX - otherX) < snapDistance()) {
                     targetX = otherX;
                     guideX = otherX;
                 }
-                if (Math.abs(targetY - otherY) < SNAP_DISTANCE) {
+                if (Math.abs(targetY - otherY) < snapDistance()) {
                     targetY = otherY;
                     guideY = otherY;
                 }

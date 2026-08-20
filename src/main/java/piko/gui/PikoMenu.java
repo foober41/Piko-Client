@@ -135,7 +135,7 @@ public class PikoMenu extends GuiScreen {
         chrome.add(hudEditor);
 
         searchField.setBounds(panelX + SIDEBAR_WIDTH + PADDING, panelY + 12.0F,
-                panelWidth - SIDEBAR_WIDTH - PADDING * 2 - 60.0F, 14.0F);
+                panelWidth - SIDEBAR_WIDTH - PADDING * 2 - 96.0F, 14.0F);
         chrome.add(searchField);
     }
 
@@ -237,6 +237,18 @@ public class PikoMenu extends GuiScreen {
     private void buildProfiles(float contentX, float contentY, float contentWidth) {
         final piko.profile.ProfileManager profiles = PikoClient.getInstance().getProfileManager();
         float cursorY = contentY;
+
+        // Client hotkeys live here because they belong to Piko itself, not to a module.
+        KeybindComponent menuKey = new KeybindComponent(PikoClient.getInstance().getKeybindManager().getMenuKey());
+        menuKey.setBounds(contentX + 2.0F, cursorY, contentWidth - 12.0F, 16.0F);
+        content.addChild(menuKey);
+        cursorY += 18.0F;
+
+        KeybindComponent editorKey = new KeybindComponent(
+                PikoClient.getInstance().getKeybindManager().getHudEditorKey());
+        editorKey.setBounds(contentX + 2.0F, cursorY, contentWidth - 12.0F, 16.0F);
+        content.addChild(editorKey);
+        cursorY += 24.0F;
 
         profileNameField = new TextFieldComponent("New profile name");
         profileNameField.setBounds(contentX + 2.0F, cursorY, contentWidth - 90.0F, 14.0F);
@@ -386,7 +398,7 @@ public class PikoMenu extends GuiScreen {
 
     private void drawPanel(float alpha) {
         RenderUtil.drawRoundedRect(panelX, panelY, panelWidth, panelHeight, Theme.cornerRadius() + 2.0F,
-                ColorUtil.fade(Theme.BACKGROUND, alpha));
+                ColorUtil.alpha(Theme.BACKGROUND, Theme.panelOpacity() * alpha));
         RenderUtil.drawRoundedBorder(panelX, panelY, panelWidth, panelHeight, Theme.cornerRadius() + 2.0F, 1.0F,
                 ColorUtil.alpha(Theme.accent(), 0.55F * alpha));
         RenderUtil.drawRect(panelX + SIDEBAR_WIDTH, panelY + 6.0F, 1.0F, panelHeight - 12.0F,

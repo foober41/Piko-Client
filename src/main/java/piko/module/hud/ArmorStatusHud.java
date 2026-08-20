@@ -23,7 +23,7 @@ public class ArmorStatusHud extends HudModule {
     private final BooleanSetting includeHeldItem;
 
     public ArmorStatusHud() {
-        super("Armor Status", "Equipped armour and durability", 0.86F, 0.55F);
+        super("Armor Status", "Equipped armour and durability", 0.90F, 0.55F);
         direction = settings.add(new ModeSetting("Direction", "Vertical", "Vertical", "Horizontal"));
         durabilityMode = settings.add(new ModeSetting("Durability", "Numbers", "None", "Numbers", "Percentage"));
         showCount = settings.add(new BooleanSetting("Item Count", true));

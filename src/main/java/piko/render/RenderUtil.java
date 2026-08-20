@@ -38,9 +38,14 @@ public final class RenderUtil {
         GlStateManager.disableTexture2D();
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.shadeModel(GL11.GL_SMOOTH);
+        // Face culling is still enabled from the world pass when a screen opens in game.
+        // Piko's rounded shapes are fans and strips whose winding does not match the
+        // vanilla quad order, so culling is turned off for all 2D drawing.
+        GlStateManager.disableCull();
     }
 
     private static void endColored() {
+        GlStateManager.enableCull();
         GlStateManager.shadeModel(GL11.GL_FLAT);
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();

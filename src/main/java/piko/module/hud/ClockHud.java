@@ -19,7 +19,7 @@ public class ClockHud extends HudModule {
     private String lastPattern = "";
 
     public ClockHud() {
-        super("Clock", "Local time of day", 0.86F, 0.02F);
+        super("Clock", "Local time of day", 0.90F, 0.02F);
         format = settings.add(new ModeSetting("Format", "24 Hour", "24 Hour", "12 Hour"));
         seconds = settings.add(new BooleanSetting("Seconds", false));
         enableBackground(false);

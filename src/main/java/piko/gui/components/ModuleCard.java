@@ -63,7 +63,8 @@ public class ModuleCard extends Component {
         }
 
         FontManager.medium().drawString(module.getName(), x + 9.0F, y + 8.0F, Theme.TEXT);
-        FontManager.small().drawString(trim(module.getDescription(), width - 20.0F), x + 9.0F, y + 21.0F,
+        // Keep the description clear of the switch in the bottom right corner.
+        FontManager.small().drawString(trim(module.getDescription(), width - 46.0F), x + 9.0F, y + 21.0F,
                 Theme.TEXT_SECONDARY);
 
         if (module.hasKeybind() && module.getKeybind().isBound()) {

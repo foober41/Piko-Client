@@ -44,30 +44,32 @@ public final class FontManager {
         return family;
     }
 
+    // Sizes are in GUI pixels and deliberately close to the vanilla font metrics so Piko
+    // text sits comfortably next to Minecraft's own.
     public static IFont small() {
         if (small == null) {
-            small = new PikoFontRenderer(new Font(family(), Font.PLAIN, 8), true);
+            small = new PikoFontRenderer(new Font(family(), Font.PLAIN, 7), true);
         }
         return small;
     }
 
     public static IFont regular() {
         if (regular == null) {
-            regular = new PikoFontRenderer(new Font(family(), Font.PLAIN, 10), true);
+            regular = new PikoFontRenderer(new Font(family(), Font.PLAIN, 9), true);
         }
         return regular;
     }
 
     public static IFont medium() {
         if (medium == null) {
-            medium = new PikoFontRenderer(new Font(family(), Font.BOLD, 12), true);
+            medium = new PikoFontRenderer(new Font(family(), Font.BOLD, 10), true);
         }
         return medium;
     }
 
     public static IFont title() {
         if (title == null) {
-            title = new PikoFontRenderer(new Font(family(), Font.BOLD, 24), true);
+            title = new PikoFontRenderer(new Font(family(), Font.BOLD, 19), true);
         }
         return title;
     }

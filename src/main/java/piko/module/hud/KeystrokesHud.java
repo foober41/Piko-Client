@@ -60,7 +60,7 @@ public class KeystrokesHud extends HudModule {
         keySize = settings.add(new NumberSetting("Key Size", 16.0D, 10.0D, 26.0D, 1.0D));
         keySpacing = settings.add(new NumberSetting("Key Spacing", 2.0D, 0.0D, 8.0D, 1.0D));
         corner = settings.add(new NumberSetting("Rounded Corners", 3.0D, 0.0D, 8.0D, 0.5D));
-        backgroundAlpha = settings.add(new NumberSetting("Background Opacity", 0.45D, 0.0D, 1.0D, 0.05D));
+        backgroundAlpha = settings.add(new NumberSetting("Background Opacity", 0.6D, 0.0D, 1.0D, 0.05D));
         pressedColor = settings.add(new ColorSetting("Pressed Color", 0xFF55CCFF));
         releasedColor = settings.add(new ColorSetting("Unpressed Color", 0xFF14171D));
         enableTextColor(0xFFFFFFFF);
